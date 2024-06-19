@@ -1,5 +1,6 @@
 package org.jeecg.config.shiro;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
@@ -17,15 +18,17 @@ import org.jeecg.config.shiro.filters.CustomShiroFilterFactoryBean;
 import org.jeecg.config.shiro.filters.JwtFilter;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.*;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.env.Environment;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
@@ -33,6 +36,7 @@ import redis.clients.jedis.JedisCluster;
 import javax.annotation.Resource;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
+import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -83,6 +87,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/sys/cas/client/validateLogin", "anon"); //cas验证登录
         filterChainDefinitionMap.put("/sys/randomImage/**", "anon"); //登录验证码接口排除
         filterChainDefinitionMap.put("/sys/checkCaptcha", "anon"); //登录验证码接口排除
+        filterChainDefinitionMap.put("/sys/smsCheckCaptcha", "anon"); //短信次数发送太多验证码排除
         filterChainDefinitionMap.put("/sys/login", "anon"); //登录接口排除
         filterChainDefinitionMap.put("/sys/mLogin", "anon"); //登录接口排除
         filterChainDefinitionMap.put("/sys/logout", "anon"); //登出接口排除
@@ -148,7 +153,7 @@ public class ShiroConfig {
         //大屏模板例子
         filterChainDefinitionMap.put("/test/bigScreen/**", "anon");
         filterChainDefinitionMap.put("/bigscreen/template1/**", "anon");
-        filterChainDefinitionMap.put("/bigscreen/template1/**", "anon");
+        filterChainDefinitionMap.put("/bigscreen/template2/**", "anon");
         //filterChainDefinitionMap.put("/test/jeecgDemo/rabbitMqClientTest/**", "anon"); //MQ测试
         //filterChainDefinitionMap.put("/test/jeecgDemo/html", "anon"); //模板页面
         //filterChainDefinitionMap.put("/test/jeecgDemo/redis/**", "anon"); //redis测试
@@ -266,6 +271,9 @@ public class ShiroConfig {
     }
 
     /**
+     * RedisConfig在项目starter项目中
+     * jeecg-boot-starter-github\jeecg-boot-common\src\main\java\org\jeecg\common\modules\redis\config\RedisConfig.java
+     * 
      * 配置shiro redisManager
      * 使用的是shiro-redis开源插件
      *
@@ -318,6 +326,20 @@ public class ShiroConfig {
             manager = redisManager;
         }
         return manager;
+    }
+
+    private List<String> rebuildUrl(String[] bases, String[] uris) {
+        List<String> urls = new ArrayList<>();
+        for (String base : bases) {
+            for (String uri : uris) {
+                urls.add(prefix(base)+prefix(uri));
+            }
+        }
+        return urls;
+    }
+
+    private String prefix(String seg) {
+        return seg.startsWith("/") ? seg : "/"+seg;
     }
 
 }
