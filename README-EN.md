@@ -7,12 +7,12 @@
 JEECG BOOT Low Code Development Platform
 ===============
 
-Current version: 3.7.0_all (Release date: 2024-06-23)
+Current version: 3.7.1 (Release date: 2024-09-12)
 
 
 [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/zhangdaiscott/jeecg-boot/blob/master/LICENSE)
 [![](https://img.shields.io/badge/Author-guojusoft-orange.svg)](http://www.jeecg.com)
-[![](https://img.shields.io/badge/version-3.7.0_all-brightgreen.svg)](https://github.com/zhangdaiscott/jeecg-boot)
+[![](https://img.shields.io/badge/version-3.7.1-brightgreen.svg)](https://github.com/zhangdaiscott/jeecg-boot)
 [![GitHub stars](https://img.shields.io/github/stars/zhangdaiscott/jeecg-boot.svg?style=social&label=Stars)](https://github.com/zhangdaiscott/jeecg-boot)
 [![GitHub forks](https://img.shields.io/github/forks/zhangdaiscott/jeecg-boot.svg?style=social&label=Fork)](https://github.com/zhangdaiscott/jeecg-boot)
 
@@ -72,10 +72,11 @@ Technical documentation
 -----------------------------------
 
 - Website：  [http://www.jeecg.com](http://www.jeecg.com)
+- Demo ： [OnlineDemo](http://boot3.jeecg.com) | [APP](http://jeecg.com/appIndex)
 - Doc：  [http://help.jeecg.com](http://help.jeecg.com)
 - Newbie guide： [Quick start](http://www.jeecg.com/doc/quickstart) |   [Q&A ](http://www.jeecg.com/doc/qa)  |  [1 minute experience](https://my.oschina.net/jeecg/blog/3083313)
 - QQ group ： ⑨808791225、⑧825232878、⑦791696430、⑥730954414(full)、683903138(full)、⑤860162132(full)、④774126647(full)、③816531124(full)、②769925425(full)、①284271917(full)
-- Demo ： [OnlineDemo](http://boot3.jeecg.com) | [APP](http://jeecg.com/appIndex)
+
 
 
 
@@ -195,7 +196,7 @@ Technical Architecture:
 
 - Persistence layer framework: MybatisPlus 3.5.3.2
 
-- Report tool: JimuReport 1.7.6
+- Report tool: JimuReport 1.8.1
 
 - Security framework: Apache Shiro 1.12.0, Jwt 3.11.0
 
@@ -212,6 +213,12 @@ Technical Architecture:
 
 - TechnologyStack：`Vue3.0+TypeScript+Vite+AntDesignVue+pinia+echarts`
 
+#### Front-end environment requirements
+
+*    `Node.js 、npm 、pnpm`
+*   Node.js Version suggestion: `v20.15.0`
+ ` ( Since Vite5 no longer supports EOL Node.js 14/16/17/19, Node.js 18/20 + is now required )`
+ 
 #### Support library
 
 |  database   |  support   |
@@ -223,6 +230,7 @@ Technical Architecture:
 |   MariaDB   |  √   |
 |   达梦   |  √   |
 |   人大金仓   |  √   |
+|   TiDB   |  √   |
 
 
 ## Microservice solutions
